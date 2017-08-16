@@ -1,0 +1,27 @@
+web:
+    image: wordpress
+    links:
+     - mysql
+    environment:
+     - WORDPRESS_DB_PASSWORD=f417f1c87f5d11e7b288d32e65b6e9ac
+     - VIRTUAL_HOST=blog.mintshowapp.com
+    ports:
+     - "127.0.0.1:93:80"
+    working_dir: /var/www/html
+    volumes:
+     - ./wp-content:/var/www/html/wp-content
+mysql:
+    image: mariadb
+    ports:
+     - "127.0.0.1:3306:3306"
+    environment:
+     - MYSQL_ROOT_PASSWORD=f417f1c87f5d11e7b288d32e65b6e9ac
+     - MYSQL_DATABASE=wp-mintshow
+    volumes:
+      - ./mysql:/var/lib/mysql
+nginx:
+    image: jwilder/nginx-proxy
+    ports:
+     - 8080:80
+    volumes:
+     - /var/run/docker.sock:/tmp/docker.sock:ro
